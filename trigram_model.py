@@ -1,7 +1,7 @@
 from nltk.tokenize import RegexpTokenizer
 import numpy as np
 
-f = open("report_2.txt", "r", encoding="utf8")
+f = open("Combined.txt", "r", encoding="utf8")
 
 tokenizer = RegexpTokenizer("[\w']+")
 tokens = tokenizer.tokenize(f.read())
@@ -27,10 +27,10 @@ for w1_w2 in trigram_model:
             model[w1_w2] = []
         model[w1_w2].append([x, unique_classes[i]])
 
-    model[w1_w2] = sorted(model[w1_w2],reverse=True)
+    model[w1_w2] = sorted(model[w1_w2], reverse=True)
 
+"""
 
-text = 'لا شك أن خدمات الاتصالات باتت'
 tokens = tokenizer.tokenize(text)
 
 accumulator = 1.0
@@ -42,11 +42,11 @@ for i in range(len(tokens) - 2):
 
 t = " ".join(tokens[-2:])
 if t in model:
-    print(model[t][0][1])
+    print(model[t])
     accumulator *= model[t][0][0]
 else:
     print("")
 
 print("Probability of text = ", accumulator)
-
+"""
 

@@ -1,48 +1,75 @@
 import tkinter as tk
- 
- 
-def updateList(new_data):
-    auto_complete_list.delete(0,tk.END)
-    
+import trigram_model
+from nltk.tokenize import RegexpTokenizer
+
+tokenizer = RegexpTokenizer("[\w']+")
+
+
+def update_list(new_data):
+    auto_complete_list.delete(0, tk.END)
+
     for item in new_data:
-        auto_complete_list.insert(tk.END,item)
-        
+        auto_complete_list.insert(tk.END, item[1])
+
+
 def auto_complete_entry(event):
     text = entry.get()
+    entry.focus_set()
     entry.insert(len(text), auto_complete_list.get(tk.ANCHOR))
 
-def outo_complete(event):
-     text = entry.get()
-     print(text)
-     # TODO:  
-     # get the last 2 words
-     # using the model sugest list of words[]
-     # call updateList(words[])
-    
+
+def auto_complete(event):
+    text = entry.get()
+    print(text)
+
+    tokens = tokenizer.tokenize(text)
+    accumulator = 1.0
+    for i in range(len(tokens) - 2):
+        t = " ".join(tokens[i:i + 2])
+        # print(tokens[i:i + 2])
+        if t in trigram_model.unsorted_model:
+            prob = trigram_model.unsorted_model[t, tokens[i + 2]]
+            accumulator *= prob
+        else:
+            accumulator *= 0
+
+    t = " ".join(tokens[-2:])
+
+    if t in trigram_model.model:
+        suggest = trigram_model.model[t]
+        print(trigram_model.model[t][0][1])
+        accumulator *= trigram_model.model[t][0][0]
+    else:
+        print("no suggestion")
+        suggest = []
+
+    update_list(suggest)
+    print("Probability of text = ", accumulator)
+
+    # TODO:
+    # get the last 2 words
+    # using the model suggest list of words[]
+    # call update_list(words[])
+
 
 root = tk.Tk()
 root.title("Auto Complete")
 root.geometry("500x300")
-    
-        
-title = tk.Label(root,text="Start Typing.." , font=(30))
+
+title = tk.Label(root, text="Start Typing..", font=30)
 title.pack(pady=20)
 
-
-entry = tk.Entry(root,font=(20),)
+entry = tk.Entry(root, font=20,width=50,)
 entry.pack(pady=20)
 
-
-auto_complete_list = tk.Listbox(root,width = 50 ,font=(20))
+auto_complete_list = tk.Listbox(root, width=50, font=20, justify="right")
 auto_complete_list.pack(pady=20)
 
+#data = ['word1', 'word2', 'word3', 'word4', 'word5', 'word6', 'word7', 'word8', 'word9']
+#update_list(data)
 
-data = ['word1','word2','word3','word4','word5','word6','word7','word8','word9']
-updateList(data)
+auto_complete_list.bind("<<ListboxSelect>>", auto_complete_entry)
 
-
-auto_complete_list.bind("<<ListboxSelect>>" , auto_complete_entry)
-
-entry.bind("<space>", outo_complete)
+entry.bind("<space>", auto_complete)
 
 root.mainloop()
