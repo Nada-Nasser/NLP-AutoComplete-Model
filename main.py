@@ -26,7 +26,6 @@ def auto_complete(event):
     accumulator = 1.0
     for i in range(len(tokens) - 2):
         t = " ".join(tokens[i:i + 2])
-        # print(tokens[i:i + 2])
         if t in trigram_model.unsorted_model:
             prob = trigram_model.unsorted_model[t, tokens[i + 2]]
             accumulator *= prob
@@ -46,11 +45,6 @@ def auto_complete(event):
     update_list(suggest)
     print("Probability of text = ", accumulator)
 
-    # TODO:
-    # get the last 2 words
-    # using the model suggest list of words[]
-    # call update_list(words[])
-
 
 root = tk.Tk()
 root.title("Auto Complete")
@@ -64,9 +58,6 @@ entry.pack(pady=20)
 
 auto_complete_list = tk.Listbox(root, width=50, font=20, justify="right")
 auto_complete_list.pack(pady=20)
-
-#data = ['word1', 'word2', 'word3', 'word4', 'word5', 'word6', 'word7', 'word8', 'word9']
-#update_list(data)
 
 auto_complete_list.bind("<<ListboxSelect>>", auto_complete_entry)
 

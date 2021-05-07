@@ -28,25 +28,3 @@ for w1_w2 in trigram_model:
         model[w1_w2].append([x, unique_classes[i]])
 
     model[w1_w2] = sorted(model[w1_w2], reverse=True)
-
-"""
-
-tokens = tokenizer.tokenize(text)
-
-accumulator = 1.0
-for i in range(len(tokens) - 2):
-    t = " ".join(tokens[i:i+2])
-    print(tokens[i:i+2])
-    prob = unsorted_model[t, tokens[i+2]]
-    accumulator *= prob
-
-t = " ".join(tokens[-2:])
-if t in model:
-    print(model[t])
-    accumulator *= model[t][0][0]
-else:
-    print("")
-
-print("Probability of text = ", accumulator)
-"""
-
