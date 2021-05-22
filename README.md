@@ -9,7 +9,7 @@ Natural language processing project using trigram language model.
 ### Installing
 
 * 1- Make sure all files in the same folder.
-* 2- Run main.py file to run the game using any python IDE.
+* 2- Run main.py file using any python IDE.
 
 ### 📸 ScreenShots
 <p>
