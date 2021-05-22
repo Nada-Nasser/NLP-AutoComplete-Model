@@ -12,4 +12,7 @@ Natural language processing project using trigram language model.
 * 2- Run main.py file to run the game using any python IDE.
 
 ### 📸 ScreenShots
-
+<p>
+<img src="screenshots/auto_complete1.png">
+<img src="screenshots/auto_complete2.png">
+</p>
